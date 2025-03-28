@@ -1,0 +1,57 @@
+:root {
+    --background-color: #1B1B1B;
+    --text-color: #636363;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+.upload-container {
+    position: absolute;
+    bottom: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--background-color);
+    padding: 5px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.file-upload-container {
+    position: relative;
+    display: inline-block;
+}
+img {
+    display: none;
+    margin-top: 30px;
+    max-width: 80%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.result-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
