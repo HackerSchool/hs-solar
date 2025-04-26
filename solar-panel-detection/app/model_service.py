@@ -33,23 +33,28 @@ def predict_image(image: BytesIO) -> dict:
 
     results = __model.predict(
         img, imgsz=400, save=True, project=__imgs_path, name=img_id
-    )
+    )  # always one image, one result
 
-    for result in results:
-        boxes = (
-            result.boxes.xyxy.cpu().numpy()
-        )  # bounding boxes in (x1, y1, x2, y2) format
-        scores = result.boxes.conf.cpu().numpy()  # confidence scores
-        class_ids = result.boxes.cls.cpu().numpy()  # class indices
+    if len(results) == 0:
+        raise ValueError("No results from prediction.")
 
-        results = []
-        for box, score, class_id in zip(boxes, scores, class_ids):
-            results.append(
-                {
-                    "class": class_ids,
-                    "confidence": scores,
-                    "bounding box": [*box],
-                }
-            )
+    result_response: list = []
 
-        return {"results": [], "image": f"results/{img_id}"}
+    boxes = (
+        results[0].boxes.xyxy.cpu().numpy().tolist()
+    )  # bounding boxes in (x1, y1, x2, y2) format
+    scores = results[0].boxes.conf.cpu().numpy().tolist()  # confidence scores
+    class_ids = results[0].boxes.cls.cpu().numpy().tolist()  # class indices
+    for box, score, class_id in zip(boxes, scores, class_ids):
+        result_response.append(
+            {
+                "label": results[0].names[int(class_id)],
+                "score": score,
+                "bounding_box": [*box],
+            }
+        )
+
+    return {
+        "results": result_response,
+        "image": f"results/{img_id}",
+    }

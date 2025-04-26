@@ -27,6 +27,7 @@
                 return;
             }
                 
+            console.log(result)
             if (result.image) {
                 const imgElement = document.getElementById("result");
                 imgElement.src = result.image;
