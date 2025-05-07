@@ -13,7 +13,7 @@
         formData.append("image", fileInput.files[0]);
         
         try {
-            const response = await fetch("/predict", {
+            const response = await fetch("/predict_image", {
                 method: "POST",
                 body: formData
             });
