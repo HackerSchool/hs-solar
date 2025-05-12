@@ -40,6 +40,7 @@ class Buildings:
                 coords = [(node["lat"], node["lon"]) for node in element.get("geometry", [])]
                 if coords:
                     centroid = Point(shape({"type": "Polygon", "coordinates": [coords]}).centroid)
+                    print(centroid)
                     b = BuildingInsight(centroid.x, centroid.y)
                     b.setInfo(element)
                     buildings.append(b)
@@ -75,6 +76,10 @@ class BuildingInsight:
     def getLatLon(self):
         return self.center_lat, self.center_lon
     
+    def getMaxBounds(self):
+        element = self.info
+        return element["bounds"]["minlat"], element["bounds"]["minlon"], element["bounds"]["maxlat"], element["bounds"]["maxlon"]
+
     def getBoundingBox(self):
         element = self.info
         coords = []
@@ -83,7 +88,7 @@ class BuildingInsight:
         return coords
     
     def getCenter(self):
-        return self.info["center"]
+        return (self.center_lat, self.center_lon)
     
     def setInfo(self, info: dict):
         self.info = info
@@ -96,6 +101,12 @@ class BuildingInsight:
 
     def getAdress(self):
         return self.adress
+
+    def setSolarInfo(self, data):
+        self.solar_info = data
+
+    def getSolarInfo(self):
+        return self.solar_info
 
     def loadSolarInfo(self, filename):
         try:

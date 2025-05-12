@@ -39,6 +39,13 @@ class Map:
 
             count += 1
 
+    def addPoint(self, lat, lon):
+        folium.CircleMarker(
+            location=[lat, lon],
+            radius=3,  # Smaller radius for a smaller marker
+            fill_opacity=0.7,
+        ).add_to(self.m)
+
     def placeBoundingBox(self, bbox: list):
         # Add a Polygon for the bounding box
         folium.Polygon(
