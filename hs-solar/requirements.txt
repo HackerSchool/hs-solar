@@ -1,2 +1,13 @@
-folium 
-shapely
+branca==0.8.1
+certifi==2025.4.26
+charset-normalizer==3.4.2
+folium==0.19.6
+idna==3.10
+Jinja2==3.1.6
+MarkupSafe==3.0.2
+numpy==2.2.6
+PyYAML==6.0.2
+requests==2.32.3
+shapely==2.1.1
+urllib3==2.4.0
+xyzservices==2025.4.0
