@@ -18,6 +18,7 @@ def rate_limiter(calls, period):
             if len(call_times) >= calls:
                 sleep_time = period - (now - call_times[0])
                 if sleep_time > 0:
+                    logging.info(f"Rate limit exceeded. Sleeping for {sleep_time:.2f} seconds.")
                     time.sleep(sleep_time)
                 now = time.time()
                 # Clean again after sleeping

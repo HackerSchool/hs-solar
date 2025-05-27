@@ -86,8 +86,9 @@ class SolarPipeline:
 
         m = Map(self.top_corner[0], self.top_corner[1])
         for b in buildings:
-            m.placeBoundingBox(b.bounds.bbox)
+            m.placeBoundingBox([(c.lat, c.lon) for c in b.geometry])
         m.save("buildings.html")
+        logging.info("Saved map with buildings to buildings.html")
 
         return buildings
 
@@ -117,7 +118,7 @@ class SolarPipeline:
                 return True
             return False
 
-        @rate_limiter(calls=20, period=60)
+        @rate_limiter(calls=300, period=60)
         def request_detection(b: BuildingInsight) -> requests.Response:
             return requests.get(
                 f"{self.panel_detection_service}/predict_coordinates?lat={b.centroid.lat}&long={b.centroid.lon}"
@@ -177,7 +178,7 @@ class SolarPipeline:
         logging.info("Running solar stage")
         # return buildings
 
-        @rate_limiter(calls=15, period=60)
+        @rate_limiter(calls=60, period=60)
         def request_solar(b: PanelInsight) -> requests.Response:
             return requests.get(
                 "https://solar.googleapis.com/v1/buildingInsights:findClosest?"
@@ -274,7 +275,7 @@ class SolarPipeline:
         logging.info("Running address stage")
         # return solar_insights
 
-        @rate_limiter(calls=45, period=60)
+        @rate_limiter(calls=300, period=60)
         def request_geocode(lat: float, lon: float) -> requests.Response:
             return requests.get(
                 f"https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{lon}&key={self.google_cloud_key}"

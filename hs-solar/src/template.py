@@ -60,3 +60,22 @@ def render_ranking_template(config: Config, address_insights: list[AddressInsigh
 
     with open(html_file, "w", encoding="utf-8") as f:
         f.write(output)
+
+
+def render_csv_template(config: Config, address_insights: list[AddressInsight], csv_file: str) -> str:
+    with open(csv_file, "w", encoding="utf-8") as f:
+        f.write("Address,Latitude,Longitude,Configuration Panel Count,Yearly Energy DC (kWh),Aerial Detection Image\n")
+        for addr in address_insights:
+            lat = addr.solar_insight.panel_insight.building.centroid.lat
+            lon = addr.solar_insight.panel_insight.building.centroid.lon
+            configs = addr.solar_insight.solar_potential.solar_panel_configs
+            if configs and len(configs) > 0:
+                panels_count = configs[0].panels_count
+                yearly_energy_dc_kwh = configs[0].yearly_energy_dc_kwh
+            else:
+                panels_count = "N/A"
+                yearly_energy_dc_kwh = "N/A"
+            detection_image_url = addr.solar_insight.panel_insight.detection_image_url.lstrip("results/")
+            f.write(
+                f"{addr.address},{lat},{lon},{panels_count},{yearly_energy_dc_kwh},{config.panel_detection_service}/{detection_image_url}\n"
+            )

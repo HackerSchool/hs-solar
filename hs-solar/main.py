@@ -9,7 +9,7 @@ from src import solar_insight as si
 from src import address_insight as ai
 
 from src.encoder import load_stage_result
-from src.template import render_ranking_template
+from src.template import render_ranking_template, render_csv_template
 
 
 if __name__ == "__main__":
@@ -137,3 +137,4 @@ if __name__ == "__main__":
 
         output_file = "ranking.html" if args.html_file is None else args.html_file
         render_ranking_template(config, address_insights, output_file)
+        render_csv_template(config, address_insights, output_file.replace(".html", ".csv"))
