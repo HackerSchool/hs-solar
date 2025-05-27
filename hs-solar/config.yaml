@@ -1,5 +1,9 @@
-google_cloud_key: ""
-panel_detection_service: "http://localhost:5000"
-top_corner: [38.69999341381147, -9.301351421573495]  # northeast corner
-bot_corner: [38.687996467877966, -9.314670765744175] # southwest corner
-confidence_threshold: 0.95
+bot_corner:
+- 38.697301
+- -9.299583
+confidence_threshold: 0.9
+google_cloud_key: ''
+panel_detection_service: http://localhost:5000
+top_corner:
+- 38.7115
+- -9.267654
